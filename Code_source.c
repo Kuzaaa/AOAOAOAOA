@@ -37,6 +37,10 @@ int main(int argc, char *argv[]){
 	    }
 	}
 
+	printMat("A",a,n);
+	printMat("B",b,n);
+	printMat("C",c,n);
+
 	baseline(n,a,b,c);
 
 	printMat("A",a,n);
