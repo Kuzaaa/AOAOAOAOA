@@ -10,7 +10,7 @@ int main(int argc, char *argv[]){
 
 	if(argc != 2){
 		printf("Usage : %s size\n",argv[0]);
-    	return 0;
+		return 0;
   	}
 
 	float** a = NULL;
@@ -37,11 +37,9 @@ int main(int argc, char *argv[]){
 	    }
 	}
 
-	printMat("A",a,n);
-	printMat("B",b,n);
-	printMat("C",c,n);
-
-	baseline(n,a,b,c);
+	for(i=0;i<MAX;i++){
+		baseline(n,a,b,c);
+	}
 
 	printMat("A",a,n);
 	printMat("B",b,n);
@@ -63,13 +61,13 @@ void baseline(unsigned n, float** a, float** b, float** c){
 	unsigned i, j;
 
 	for(i=0; i<n; i++){
-    	for(j=0; j<n-1; j++){
-    		a[j][i] = b[i][j] - 1;
-    	}
+		for(j=0; j<n-1; j++){
+			a[j][i] = b[i][j] - 1;
+		}
 
-    	for(j=0; j<n-1; j++){
-    		c[i][j] = a[j+1][i] * b[i][j+1];
-    	}
+		for(j=0; j<n-1; j++){
+			c[i][j] = a[j+1][i] * b[i][j+1];
+		}
 	}
 }
 
@@ -82,7 +80,7 @@ void printMat(char* name, float** mat, unsigned n){
 	for(i=0; i<n; i++){
 		printf("|");
 	    for(j=0; j<n; j++){
-	    	printf(" %f ",mat[i][j]);
+			printf(" %f ",mat[i][j]);
 	    }
 	    printf("|\n");
 	}
