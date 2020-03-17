@@ -3,7 +3,7 @@
 #include <time.h>
 #include <stdint.h>
 
-#define NB_METAS 31
+#define NB_METAS 1
 
 extern uint64_t rdtsc();
 extern void baseline(unsigned n, float** a, float** b, float** c);
