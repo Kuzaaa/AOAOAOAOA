@@ -20,6 +20,7 @@ int main(int argc, char *argv[]){
 	unsigned int i,j,n,m;
 	int repm,repw;
 	uint64_t t1,t2;
+	clock_t start,end;
 
 	n = atoi(argv[1]);
 	repw = atoi(argv[2]);
@@ -59,12 +60,15 @@ int main(int argc, char *argv[]){
 		}
 
 		t1 = rdtsc();
+		start = clock();
 		for(i=0;i<repm;i++){
 			baseline(n,a,b,c);
 		}
+		end = clock();
 		t2 = rdtsc();
 
-		printf("%.2f cycles/operation\n",(float)(t2 - t1) / ((float) n * n * repm));
+		//printf("%.2f cycles/operation\n",(float)(t2 - t1) / ((float) n * n * repm));
+		printf("%.6f\n",(end - start) / ((float) CLOCKS_PER_SEC * repm));
 
 		/*printMat("A",a,n);
 		printMat("B",b,n);
