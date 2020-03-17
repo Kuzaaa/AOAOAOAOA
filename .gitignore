@@ -53,4 +53,5 @@ dkms.conf
 exec
 maqao*
 script.sh
-resultat.txt
+resultat*
+courbe*
