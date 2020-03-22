@@ -1,5 +1,6 @@
 //il faudra rajouter les opti avec le même nom de fonction
 
+//Code source
 void baseline(unsigned n, float** a, float** b, float** c){
 
 	unsigned i, j;
