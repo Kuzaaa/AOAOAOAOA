@@ -6,6 +6,9 @@
 //Méta-répétions
 #define NB_METAS 31
 
+//
+#define INDEX(row, col, n) (((row) * (n)) + (col))
+
 //Permet de récuperer le nombre de cycles
 extern uint64_t rdtsc();
 
@@ -23,6 +26,7 @@ extern void baseline(unsigned n, float* a, float* b, float* c);
 
 //Fonction debug/test qui affiche une matrice
 void printMat(char* name, float** mat, unsigned n);
+void printMat1D(char* name, float* mat, unsigned n);
 
 int main(int argc, char *argv[]){
 
@@ -114,9 +118,18 @@ int main(int argc, char *argv[]){
 		 *Debug/test
 		 *Affiche les matrices du code source
 		 */
+
+		#if BASELINE
 		printMat("A",a,n);
 		printMat("B",b,n);
 		printMat("C",c,n);
+		#endif
+
+		#if BASELINE == 0
+		printMat1D("A",a,n);
+		printMat1D("B",b,n);
+		printMat1D("C",c,n);
+		#endif
 
 		/*
 		 *Libération mémoire
@@ -135,7 +148,7 @@ int main(int argc, char *argv[]){
 		#endif
 
 		//
-		#if TAB1D
+		#if BASELINE == 0
 		free(a);
 		free(b);
 		free(c);
@@ -157,6 +170,22 @@ void printMat(char* name, float** mat, unsigned n){
 		printf("|");
 	    for(j=0; j<n; j++){
 			printf(" %f ",mat[i][j]);
+	    }
+	    printf("|\n");
+	}
+}
+
+//Fonction debug/test qui affiche une matrice
+void printMat1D(char* name, float* mat, unsigned n){
+
+	unsigned i,j;
+
+	printf("%s :\n",name);
+
+	for(i=0; i<n; i++){
+		printf("|");
+	    for(j=0; j<n; j++){
+			printf(" %f ",mat[INDEX(i,j,n)]);
 	    }
 	    printf("|\n");
 	}
