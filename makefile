@@ -10,5 +10,8 @@ tab_1d:
 independant:
 	$(CC) $(FLAGS) -DINDEPENDANT=1 driver.c kernel.c rdtsc.c -o exec
 
+independant_split:
+	$(CC) $(FLAGS) -DINDEPENDANT_V2=1 driver.c kernel.c rdtsc.c -o exec
+
 clean:
 	rm exec
