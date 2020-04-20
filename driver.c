@@ -8,8 +8,18 @@
 
 //Permet de récuperer le nombre de cycles
 extern uint64_t rdtsc();
+
 //Code source
+
+//
+#if BASELINE
 extern void baseline(unsigned n, float** a, float** b, float** c);
+#endif
+
+//
+#if BASELINE == 0
+extern void baseline(unsigned n, float* a, float* b, float* c);
+#endif
 
 //Fonction debug/test qui affiche une matrice
 void printMat(char* name, float** mat, unsigned n);
@@ -29,12 +39,17 @@ int main(int argc, char *argv[]){
 	n = atoi(argv[1]);
 	repw = atoi(argv[2]);
 	repm = atoi(argv[3]);
-	srand(time(NULL));
+	srand(0);
 
 	//Pour chaque méta-répétitions
 	for(m=0;m<NB_METAS;m++) {
 
-		//Initialisation des tableaux
+		/*
+		 *Initialisation des tableaux
+		 */
+
+		//
+		#if BASELINE
 		float** a = NULL;
 		float** b = NULL;
 		float** c = NULL;
@@ -54,6 +69,26 @@ int main(int argc, char *argv[]){
 		    	c[i][j] = ((float)rand())/RAND_MAX;
 		    }
 		}
+		#endif
+
+		//
+		#if TAB1D
+		float* a = NULL;
+		float* b = NULL;
+		float* c = NULL;
+
+		//
+		a = malloc(n*n*sizeof(float));
+		b = malloc(n*n*sizeof(float));
+		c = malloc(n*n*sizeof(float));
+
+		//
+		for(i=0; i<n*n; i++){
+		   	a[i] = ((float)rand())/RAND_MAX;
+		   	b[i] = ((float)rand())/RAND_MAX;
+		   	c[i] = ((float)rand())/RAND_MAX;
+		}
+		#endif
 
 		//Warm-up * nombre de répétitions du warm-up
 		if(m == 0){
@@ -79,11 +114,16 @@ int main(int argc, char *argv[]){
 		 *Debug/test
 		 *Affiche les matrices du code source
 		 */
-		/*printMat("A",a,n);
+		printMat("A",a,n);
 		printMat("B",b,n);
-		printMat("C",c,n);*/
+		printMat("C",c,n);
 
-		//Libération mémoire
+		/*
+		 *Libération mémoire
+		 */
+
+		//
+		#if BASELINE
 		for(i=0; i<n; i++){
 		    free(a[i]);
 		    free(b[i]);
@@ -92,6 +132,14 @@ int main(int argc, char *argv[]){
 		free(a);
 		free(b);
 		free(c);
+		#endif
+
+		//
+		#if TAB1D
+		free(a);
+		free(b);
+		free(c);
+		#endif
 
 	}
 
