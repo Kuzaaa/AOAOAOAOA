@@ -76,7 +76,7 @@ int main(int argc, char *argv[]){
 		#endif
 
 		//
-		#if TAB1D
+		#ifndef BASELINE
 		float* a = NULL;
 		float* b = NULL;
 		float* c = NULL;
