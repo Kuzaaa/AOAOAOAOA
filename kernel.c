@@ -75,3 +75,34 @@ void baseline(unsigned n, float* a, float* b, float* c){
 	}
 }
 #endif
+
+
+#if BLOCK_CACHE
+//Independant loops
+void baseline(unsigned n, float* a, float* b, float* c){
+
+	unsigned i,j,l,m;
+
+	unsigned blockSize = 32; 
+
+	for(i=0; i < n ; ++i){
+		for(j=0 ;j < n-1; ++j ){
+
+			for(k=i; k< i+biockSize ; ++k){
+				for(l=j; j < j+blockSize; ++l){
+					a[INDEX(l,k,n)] = b[INDEX(k,l,n)] - 1;
+				}
+			}
+
+		}
+	}
+	
+
+	for(i=0;i<n;i++){
+		for(j=i*n; j<INDEX(i,n-2,n); j++){
+			c[j] = (b[j+1] - 1) * b[j+1];
+		}
+		c[j] = a[INDEX(n-1,i,n)] * b[j+1];
+	}
+}
+#endif

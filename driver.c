@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdint.h>
+#include <emmintrin.h>
+
 
 //Méta-répétions
 #define NB_METAS 31
@@ -82,9 +84,9 @@ int main(int argc, char *argv[]){
 		float* c = NULL;
 
 		//
-		a = _mm_malloc(n*n*sizeof(float));
-		b = _mm_malloc(n*n*sizeof(float));
-		c = _mm_malloc(n*n*sizeof(float));
+		a = _mm_malloc(n*n*sizeof(float),32);
+		b = _mm_malloc(n*n*sizeof(float),32);
+		c = _mm_malloc(n*n*sizeof(float),32);
 
 		//
 		for(i=0; i<n*n; i++){
