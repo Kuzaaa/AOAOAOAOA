@@ -81,22 +81,32 @@ void baseline(unsigned n, float* a, float* b, float* c){
 //Independant loops
 void baseline(unsigned n, float* a, float* b, float* c){
 
-	unsigned i,j,k,l;
+	unsigned i,j,k,l,m;
 
-	unsigned blockSize = 32; 
+	unsigned blockSize = 16; 
 
-	for(i=0; i < n ; i+=blockSize){
-		for(j=0 ;j < n-1; j+=blockSize ){
+	while(blockSize>>1){
 
-			for(k=i; k< i+blockSize ; k++){
-				for(l=j; j < j+blockSize; l++){
-					a[INDEX(l,k,n)] = b[INDEX(k,l,n)] - 1;
+		for(i=0; i < n ; i+=blockSize){
+			for(j=0 ;j < n-1; j+=blockSize ){
+
+				for(k=i; k < i+blockSize ; k++){
+					for(l=j; j < j+blockSize; l++){
+						a[INDEX(l,k,n)] = b[INDEX(k,l,n)] - 1;
+					}
 				}
-			}
 
+			}
+		}
+
+	}
+
+	for(int o = i; i < n; i++){
+		for(int p = j ; j < n-1; p++){
+			a[INDEX(p,o,n)] = b[INDEX(o,p,n)] - 1;
 		}
 	}
-	
+
 
 	for(i=0;i<n;i++){
 		for(j=i*n; j<INDEX(i,n-2,n); j++){

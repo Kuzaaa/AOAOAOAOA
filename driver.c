@@ -97,14 +97,11 @@ int main(int argc, char *argv[]){
 		#endif
 
 		//Warm-up * nombre de répétitions du warm-up
-		if(m == 0){
+	
 			for(i=0;i<repw;i++){
 				baseline(n,a,b,c);
 			}
-		}
-		else {
-			baseline(n,a,b,c);
-		}
+
 
 		//Exécution du code souce * nombre de répétitions des mesures
 		t1 = rdtsc();
