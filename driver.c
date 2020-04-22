@@ -58,14 +58,14 @@ int main(int argc, char *argv[]){
 		float** b = NULL;
 		float** c = NULL;
 
-		a = malloc(n*sizeof(float*));
-		b = malloc(n*sizeof(float*));
-		c = malloc(n*sizeof(float*));
+		a = _mm_malloc(n*sizeof(float*),32);
+		b = _mm_malloc(n*sizeof(float*),32);
+		c = _mm_malloc(n*sizeof(float*),32);
 
 		for(i=0; i<n; i++){
-			a[i] = malloc(n*sizeof(float));
-		    b[i] = malloc(n*sizeof(float));
-		    c[i] = malloc(n*sizeof(float));
+			a[i] = _mm_malloc(n*sizeof(float),32);
+		    b[i] = _mm_malloc(n*sizeof(float),32);
+		    c[i] = _mm_malloc(n*sizeof(float),32);
 
 		    for(j=0; j<n; j++){
 		    	a[i][j] = ((float)rand())/RAND_MAX;
@@ -82,9 +82,9 @@ int main(int argc, char *argv[]){
 		float* c = NULL;
 
 		//
-		a = malloc(n*n*sizeof(float));
-		b = malloc(n*n*sizeof(float));
-		c = malloc(n*n*sizeof(float));
+		a = _mm_malloc(n*n*sizeof(float));
+		b = _mm_malloc(n*n*sizeof(float));
+		c = _mm_malloc(n*n*sizeof(float));
 
 		//
 		for(i=0; i<n*n; i++){
