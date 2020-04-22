@@ -127,7 +127,7 @@ int main(int argc, char *argv[]){
 		printMat("C",c,n);
 		#endif
 
-		#if BASELINE == 0
+		#ifndef BASELINE
 		printMat1D("A",a,n);
 		printMat1D("B",b,n);
 		printMat1D("C",c,n);
@@ -150,7 +150,7 @@ int main(int argc, char *argv[]){
 		#endif
 
 		//
-		#if BASELINE == 0
+		#ifndef BASELINE
 		free(a);
 		free(b);
 		free(c);
