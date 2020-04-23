@@ -111,7 +111,7 @@ int main(int argc, char *argv[]){
 		t2 = rdtsc();
 
 		//Affichage du nombre de cycles par instructions
-		printf("%.2f\n",(float)(t2 - t1) / ((float) n * n * repm));
+		//printf("%.2f\n",(float)(t2 - t1) / ((float) n * n * repm));
 
 		/*
 		 *Debug/test
