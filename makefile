@@ -16,5 +16,8 @@ independant_split:
 block_cache:
 	$(CC) $(FLAGS) -DBLOCK_CACHE=1 driver.c kernel.c rdtsc.c -o exec
 
+block_cache_mod:
+	$(CC) $(FLAGS) -DBLOCK_CACHE_MOD=1 driver.c kernel.c rdtsc.c -o exec
+
 clean:
 	rm exec
