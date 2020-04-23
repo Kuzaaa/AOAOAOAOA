@@ -6,7 +6,7 @@
 
 
 //Méta-répétions
-#define NB_METAS 31
+#define NB_METAS 1
 
 //
 #define INDEX(row, col, n) (((row) * (n)) + (col))
@@ -97,10 +97,9 @@ int main(int argc, char *argv[]){
 		#endif
 
 		//Warm-up * nombre de répétitions du warm-up
-	
-			for(i=0;i<repw;i++){
-				baseline(n,a,b,c);
-			}
+		for(i=0;i<repw;i++){
+			baseline(n,a,b,c);
+		}
 
 
 		//Exécution du code souce * nombre de répétitions des mesures

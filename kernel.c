@@ -93,21 +93,21 @@ void baseline(unsigned n, float* a, float* b, float* c){
 
 	int blockSize = 4; 
 
-	//printf("debut fonction \n");
-	//printf("n:%d \n" ,n);
-
 	//// TRANSPOSER ///////
  
-    int resteLigne = n%blockSize;
+    int resteLigne = (n-1)%blockSize;
 
-     int resteCol = (n-1)%blockSize;
+    int resteCol = n%blockSize;
 
-    for(i=0; i < n ; i+=blockSize){
-        for(j=0 ;j+blockSize < n-1; j+=blockSize ){
-          //  printf("block %d de taille %d -> %d, %d\n",i/blockSize+j/blockSize,blockSize,i,j);
-            for(k=i; k < i+blockSize ; k++){
-                for(l=j; l < j+blockSize; l++){
-                   // printf("case %d,%d\n",k,l);
+
+	//Calcul par block de taille blockSize
+
+    for(i=0; i < n ; i+=blockSize){//Position des blocs en colonne
+        for(j=0 ;j+blockSize < n-1; j+=blockSize ){//Position des blocs en ligne
+		//printf("block de taille %d en %d, %d\n",blockSize,j,i);
+            for(k=i; k < i+blockSize ; k++){//Parcours le bloc en colonne
+                for(l=j; l < j+blockSize; l++){//Parcours le bloc en ligne
+                   //printf("case %d,%d\n",k,l);
                     a[INDEX(l,k,n)] = b[INDEX(k,l,n)] - 1;
                 }
             }
@@ -115,20 +115,25 @@ void baseline(unsigned n, float* a, float* b, float* c){
         }
     }
 
-    
-    for(int o = 0; o < n; o++){
+	//Colonne en dehors des blocs
 
-        for(int p = n-resteCol-1 ; p < n-1; p++){
+    //printf("Premiere boucle\n");
+
+    //printf("Ligne %d à %d pour les colonnes %d à %d\n",0,n-1,n-resteCol,n);
+    for(int o = n-resteCol; o < n; o++){
+        for(int p = 0 ; p < n-1; p++){
             a[INDEX(p,o,n)] = b[INDEX(o,p,n)] - 1;
         }
     
     }
 
+	//Ligne en dehors des blocs (sauf la dernière)
 
+	//printf("Deuxieme boucle\n");
 
-
-    for(int o = (n-1)-resteLigne; o < n-1; o++){
-        for(int p = 0 ; p < n-resteCol; p++){
+    //printf("Ligne %d à %d pour les colonnes %d à %d\n",(n-1)-resteLigne,n-1,0,n-resteCol);
+    for(int o = 0; o < n-resteCol; o++){
+        for(int p = (n-1)-resteLigne ; p < n-1; p++){
             a[INDEX(p,o,n)] = b[INDEX(o,p,n)] - 1;
         }
     
