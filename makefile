@@ -1,5 +1,5 @@
 CC=gcc
-FLAGS=-O2 -g3
+FLAGS=-O2 -g3 -fopenmp
 
 baseline:
 	$(CC) $(FLAGS) -DBASELINE=1 driver.c kernel.c rdtsc.c -o exec
@@ -19,5 +19,14 @@ block_cache:
 block_cache_mod:
 	$(CC) $(FLAGS) -DBLOCK_CACHE_MOD=1 driver.c kernel.c rdtsc.c -o exec
 
+independant_parallel:
+	$(CC) $(FLAGS) -DINDEPENDANT_PARALLEL=1 driver.c kernel.c rdtsc.c -o exec
+
+independant_split_parallel:
+	$(CC) $(FLAGS) -DINDEPENDANT_SPLIT_PARALLEL=1 driver.c kernel.c rdtsc.c -o exec
+
+block_cache_parallel:
+	$(CC) $(FLAGS) -DBLOCKPARALLEL=1 driver.c kernel.c rdtsc.c -o exec
+
 clean:
-	rm exec
+	rm exec resultat*

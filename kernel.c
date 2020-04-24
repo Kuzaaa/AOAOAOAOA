@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <omp.h>
 
 #define INDEX(row, col, n) (((row) * (n)) + (col))
 
@@ -108,10 +109,10 @@ void baseline(unsigned n, float* a, float* b, float* c){
 	unsigned i = 0;
 	unsigned j =0;
 
-	int blockSize = 16; 
+	int blockSize = 16;
 
 	//// TRANSPOSER ///////
- 
+
     int resteLigne = (n-1)%blockSize;
 
     int resteCol = n%blockSize;
@@ -138,12 +139,12 @@ void baseline(unsigned n, float* a, float* b, float* c){
     //printf("Premiere boucle\n");
 
     //printf("Ligne %d à %d pour les colonnes %d à %d\n",0,n-1,n-resteCol,n);
-   	
+
     for(int o = n-resteCol; o < n; o++){
         for(int p = 0 ; p < n-1; p++){
             a[INDEX(p,o,n)] = b[INDEX(o,p,n)] - 1;
         }
-    
+
     }
 
 	//Ligne en dehors des blocs (sauf la dernière)
@@ -155,10 +156,10 @@ void baseline(unsigned n, float* a, float* b, float* c){
         for(int p = (n-1)-resteLigne ; p < n-1; p++){
             a[INDEX(p,o,n)] = b[INDEX(o,p,n)] - 1;
         }
-    
+
     }
 
-	
+
     ///////////// FIN TRANSPOSE
 
 	for(i=0;i<n;i++){
@@ -182,10 +183,10 @@ void baseline(unsigned n, float* a, float* b, float* c){
 	unsigned i = 0;
 	unsigned j =0;
 
-	int blockSize = 4; 
+	int blockSize = 16;
 
 	//// TRANSPOSER ///////
- 
+
     //int resteLigne = (n-1)%blockSize;
     //int resteCol = n%blockSize;
     int reste = n%blockSize;
@@ -208,12 +209,11 @@ void baseline(unsigned n, float* a, float* b, float* c){
    	}
 
 	//Calcul par block de taille blockSize
-   	
+
    for(i=0; i+blockSize <= n ; i+=blockSize){//Position des blocs en colonne
    //	printf("block de taille %d en %d, %d\n",blockSize,j,i);
         for(j=0 ; j+blockSize <= n; j+=blockSize ){//Position des blocs en ligne
 
-		
             for(k=i; k < i+blockSize ; k++){//Parcours le bloc en colonne
                 for(l=j; l < j+blockSize; l++){//Parcours le bloc en ligne
                     //printf("case %d,%d\n",k,l);
@@ -230,12 +230,12 @@ void baseline(unsigned n, float* a, float* b, float* c){
     //printf("Premiere boucle\n");
 
     //printf("Ligne %d à %d pour les colonnes %d à %d\n",0,n-1,n-resteCol,n);
-   	
+
     for(int o = n-reste; o < n; o++){
         for(int p = 0 ; p < n; p++){
             a[INDEX(p,o,n)] = b[INDEX(o,p,n)] - 1;
         }
-    
+
     }
 
 	//Ligne en dehors des blocs (sauf la dernière)
@@ -247,8 +247,8 @@ void baseline(unsigned n, float* a, float* b, float* c){
         for(int p = n-reste ; p < n-1; p++){
             a[INDEX(p,o,n)] = b[INDEX(o,p,n)] - 1;
         }
-    
-    } 
+
+    }
     //printMatt("A",a,n);
     for(int x =0; x < n; ++x){
 
@@ -267,8 +267,133 @@ void baseline(unsigned n, float* a, float* b, float* c){
 			c[j] = (b[j+1] - 1) * b[j+1];
 		}
 		c[j] = a[INDEX(n-1,i,n)] * b[j+1];
-	} 
+	}
 	free(tamp);
+
+}
+#endif
+
+#if INDEPENDANT_PARALLEL
+//Independant loops
+void baseline(unsigned n, float* a, float* b, float* c){
+
+	unsigned i, j;
+	omp_set_num_threads(omp_get_num_procs());
+
+	#pragma omp parallel for private(j)
+	for(i=0; i<n; i++){
+		for(j=0; j<n-1; j++){
+			a[INDEX(j,i,n)] = b[INDEX(i,j,n)] - 1;
+		}
+
+		for(j=0; j<n-2; j++){
+			c[INDEX(i,j,n)] = (b[INDEX(i,j+1,n)] - 1) * b[INDEX(i,j+1,n)];
+		}
+		c[INDEX(i,n-2,n)] = a[INDEX(n-1,i,n)] * b[INDEX(i,n-1,n)];
+	}
+}
+#endif
+
+#if INDEPENDANT_SPLIT_PARALLEL
+//Independant loops
+void baseline(unsigned n, float* a, float* b, float* c){
+
+	unsigned i, j;
+	omp_set_num_threads(omp_get_num_procs());
+
+	//printf("debut fonction \n");
+	#pragma omp parallel for private(j)
+	for(i=0; i < n; i++){
+		for(j=0; j<n-1; j++){
+			//printf("i: %d j: %d \n ",i,j);
+			a[INDEX(j,i,n)] = b[INDEX(i,j,n)] - 1;
+		}
+	}
+
+	#pragma omp parallel for private(j)
+	for(i=0;i<n;i++){
+		for(j=i*n; j<INDEX(i,n-2,n); j++){
+			c[j] = (b[j+1] - 1) * b[j+1];
+		}
+		c[j] = a[INDEX(n-1,i,n)] * b[j+1];
+	}
+}
+#endif
+
+#if BLOCKPARALLEL
+//Independant loops
+void baseline(unsigned n, float* a, float* b, float* c){
+	unsigned k =0;
+	unsigned l =0;
+	unsigned m = 0;
+	unsigned i = 0;
+	unsigned j =0;
+	int p,o;
+
+	int blockSize = 16;
+
+	//// TRANSPOSER ///////
+
+    int resteLigne = (n-1)%blockSize;
+
+    int resteCol = n%blockSize;
+
+	omp_set_num_threads(omp_get_num_procs());
+
+	//Calcul par block de taille blockSize
+
+	#pragma omp parallel for private(j,k,l)
+    for(i=0; i < n-blockSize ; i+=blockSize){//Position des blocs en colonne
+        for(j=0 ; j+blockSize < n-1; j+=blockSize ){//Position des blocs en ligne
+		//printf("block de taille %d en %d, %d\n",blockSize,j,i);
+            for(k=i; k < i+blockSize ; k++){//Parcours le bloc en colonne
+                for(l=j; l < j+blockSize; l++){//Parcours le bloc en ligne
+                    //printf("case %d,%d\n",k,l);
+                	//printf("i: %d j: %d : k: %d l: %d \n",i,j,k,l );
+                    a[INDEX(l,k,n)] = b[INDEX(k,l,n)] - 1;
+                }
+            }
+
+        }
+    }
+
+	//Colonne en dehors des blocs
+
+    //printf("Premiere boucle\n");
+
+    //printf("Ligne %d à %d pour les colonnes %d à %d\n",0,n-1,n-resteCol,n);
+
+	#pragma omp parallel for private(p)
+    for(o = n-resteCol; o < n; o++){
+        for(p = 0 ; p < n-1; p++){
+            a[INDEX(p,o,n)] = b[INDEX(o,p,n)] - 1;
+        }
+
+    }
+
+	//Ligne en dehors des blocs (sauf la dernière)
+
+	//printf("Deuxieme boucle\n");
+   // printMat1D("A",a,n);
+    //printf("Ligne %d à %d pour les colonnes %d à %d\n",(n-1)-resteLigne,n-1,0,n-resteCol);
+	#pragma omp parallel for private(p)
+    for(o = 0; o < n-resteCol; o++){
+        for(p = (n-1)-resteLigne ; p < n-1; p++){
+            a[INDEX(p,o,n)] = b[INDEX(o,p,n)] - 1;
+        }
+
+    }
+
+
+    ///////////// FIN TRANSPOSE
+	#pragma omp parallel for private(j)
+	for(i=0;i<n;i++){
+		for(j=i*n; j<INDEX(i,n-2,n); j++){
+			c[j] = (b[j+1] - 1) * b[j+1];
+		}
+		c[j] = a[INDEX(n-1,i,n)] * b[j+1];
+	}
+
 
 }
 #endif
