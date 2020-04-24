@@ -1,5 +1,5 @@
 CC=gcc
-FLAGS=-O2
+FLAGS=-O2 -g3
 
 baseline:
 	$(CC) $(FLAGS) -DBASELINE=1 driver.c kernel.c rdtsc.c -o exec

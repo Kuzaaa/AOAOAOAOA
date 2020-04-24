@@ -108,7 +108,7 @@ void baseline(unsigned n, float* a, float* b, float* c){
 	unsigned i = 0;
 	unsigned j =0;
 
-	int blockSize = 4; 
+	int blockSize = 16; 
 
 	//// TRANSPOSER ///////
  
@@ -272,5 +272,3 @@ void baseline(unsigned n, float* a, float* b, float* c){
 
 }
 #endif
-
-

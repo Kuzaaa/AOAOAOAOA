@@ -6,7 +6,7 @@
 
 
 //Méta-répétions
-#define NB_METAS 1
+#define NB_METAS 31
 
 //
 #define INDEX(row, col, n) (((row) * (n)) + (col))
@@ -60,14 +60,14 @@ int main(int argc, char *argv[]){
 		float** b = NULL;
 		float** c = NULL;
 
-		a = _mm_malloc(n*sizeof(float*),32);
-		b = _mm_malloc(n*sizeof(float*),32);
-		c = _mm_malloc(n*sizeof(float*),32);
+		a = malloc(n*sizeof(float*));
+		b = malloc(n*sizeof(float*));
+		c = malloc(n*sizeof(float*));
 
 		for(i=0; i<n; i++){
-			a[i] = _mm_malloc(n*sizeof(float),32);
-		    b[i] = _mm_malloc(n*sizeof(float),32);
-		    c[i] = _mm_malloc(n*sizeof(float),32);
+			a[i] = malloc(n*sizeof(float));
+		    b[i] = malloc(n*sizeof(float));
+		    c[i] = malloc(n*sizeof(float));
 
 		    for(j=0; j<n; j++){
 		    	a[i][j] = ((float)rand())/RAND_MAX;
@@ -110,13 +110,13 @@ int main(int argc, char *argv[]){
 		t2 = rdtsc();
 
 		//Affichage du nombre de cycles par instructions
-		//printf("%.2f\n",(float)(t2 - t1) / ((float) n * n * repm));
+		printf("%.2f\n",(float)(t2 - t1) / ((float) n * n * repm));
 
 		/*
 		 *Debug/test
 		 *Affiche les matrices du code source
 		 */
-
+		/*
 		#if BASELINE
 		printMat("A",a,n);
 		printMat("B",b,n);
@@ -128,6 +128,7 @@ int main(int argc, char *argv[]){
 		printMat1D("B",b,n);
 		printMat1D("C",c,n);
 		#endif
+		*/
 
 		/*
 		 *Libération mémoire
@@ -147,9 +148,9 @@ int main(int argc, char *argv[]){
 
 		//
 		#ifndef BASELINE
-		free(a);
-		free(b);
-		free(c);
+		_mm_free(a);
+		_mm_free(b);
+		_mm_free(c);
 		#endif
 
 	}
