@@ -1,32 +1,32 @@
 CC=gcc
-FLAGS=-O2 -g3 -fopenmp
+CFLAGS=-g3 -fopenmp
 
 baseline:
-	$(CC) $(FLAGS) -DBASELINE=1 driver.c kernel.c rdtsc.c -o exec
+	$(CC) -DBASELINE=1 $(CFLAGS) $(OFLAGS) -$(FLAG) driver.c kernel.c rdtsc.c -o exec
 
 tab_1d:
-	$(CC) $(FLAGS) -DTAB1D=1 driver.c kernel.c rdtsc.c -o exec
+	$(CC) -DTAB1D=1 $(CFLAGS) $(OFLAGS) -$(FLAG) driver.c kernel.c rdtsc.c -o exec
 
 independant:
-	$(CC) $(FLAGS) -DINDEPENDANT=1 driver.c kernel.c rdtsc.c -o exec
+	$(CC) -DINDEPENDANT=1 $(CFLAGS) $(OFLAGS) -$(FLAG) driver.c kernel.c rdtsc.c -o exec
 
 independant_split:
-	$(CC) $(FLAGS) -DINDEPENDANT_SPLIT=1 driver.c kernel.c rdtsc.c -o exec
+	$(CC) -DINDEPENDANT_SPLIT=1 $(CFLAGS) $(OFLAGS) -$(FLAG) driver.c kernel.c rdtsc.c -o exec
 
 block_cache:
-	$(CC) $(FLAGS) -DBLOCK_CACHE=1 driver.c kernel.c rdtsc.c -o exec
+	$(CC) -DBLOCK_CACHE=1 $(CFLAGS) $(OFLAGS) -$(FLAG) driver.c kernel.c rdtsc.c -o exec
 
 block_cache_mod:
-	$(CC) $(FLAGS) -DBLOCK_CACHE_MOD=1 driver.c kernel.c rdtsc.c -o exec
+	$(CC) -DBLOCK_CACHE_MOD=1 $(CFLAGS) $(OFLAGS) -$(FLAG) driver.c kernel.c rdtsc.c -o exec
 
 independant_parallel:
-	$(CC) $(FLAGS) -DINDEPENDANT_PARALLEL=1 driver.c kernel.c rdtsc.c -o exec
+	$(CC) -DINDEPENDANT_PARALLEL=1 $(CFLAGS) $(OFLAGS) -$(FLAG) driver.c kernel.c rdtsc.c -o exec
 
 independant_split_parallel:
-	$(CC) $(FLAGS) -DINDEPENDANT_SPLIT_PARALLEL=1 driver.c kernel.c rdtsc.c -o exec
+	$(CC) -DINDEPENDANT_SPLIT_PARALLEL=1 $(CFLAGS) $(OFLAGS) -$(FLAG) driver.c kernel.c rdtsc.c -o exec
 
 block_cache_parallel:
-	$(CC) $(FLAGS) -DBLOCKPARALLEL=1 driver.c kernel.c rdtsc.c -o exec
+	$(CC) -DBLOCKPARALLEL=1 $(CFLAGS) $(OFLAGS) -$(FLAG) driver.c kernel.c rdtsc.c -o exec
 
 clean:
-	rm exec resultat*
+	rm exec *.gcda *.dyn *.dpi *.lock
