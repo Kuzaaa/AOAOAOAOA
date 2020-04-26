@@ -16,9 +16,6 @@ independant_split:
 block_cache:
 	$(CC) -DBLOCK_CACHE=1 $(CFLAGS) $(OFLAGS) -$(FLAG) driver.c kernel.c rdtsc.c -o exec
 
-block_cache_mod:
-	$(CC) -DBLOCK_CACHE_MOD=1 $(CFLAGS) $(OFLAGS) -$(FLAG) driver.c kernel.c rdtsc.c -o exec
-
 independant_parallel:
 	$(CC) -DINDEPENDANT_PARALLEL=1 $(CFLAGS) $(OFLAGS) -$(FLAG) driver.c kernel.c rdtsc.c -o exec
 
