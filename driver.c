@@ -79,6 +79,7 @@ int main(int argc, char *argv[]){
 
 		//
 		#ifndef BASELINE
+		//Allocation mémoire alignée
 		float* a = NULL;
 		float* b = NULL;
 		float* c = NULL;
@@ -148,6 +149,7 @@ int main(int argc, char *argv[]){
 
 		//
 		#ifndef BASELINE
+		//Libération mémoire alignée
 		_mm_free(a);
 		_mm_free(b);
 		_mm_free(c);
