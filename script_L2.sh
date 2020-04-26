@@ -15,7 +15,7 @@ do
 
 	mkdir resultsL2L2/$cc/$opt
 
-	for var in baseline tab_1d independant independant_split block_cache block_cache_mod independant_parallel \
+	for var in baseline tab_1d independant independant_split block_cache independant_parallel \
 	 	independant_split_parallel block_cache_parallel
 	do
 		echo "Variante : " $var
@@ -52,7 +52,7 @@ echo "Opt : " $opt
 
 mkdir resultsL2/$cc/$opt
 
-for var in baseline tab_1d independant independant_split block_cache block_cache_mod independant_parallel \
+for var in baseline tab_1d independant independant_split block_cache independant_parallel \
  	independant_split_parallel block_cache_parallel
 do
 	echo "Variante : " $var
@@ -78,7 +78,7 @@ do
 
 	mkdir resultsL2/$cc/$opt
 
-	for var in baseline tab_1d independant independant_split block_cache block_cache_mod independant_parallel \
+	for var in baseline tab_1d independant independant_split block_cache independant_parallel \
 	 	independant_split_parallel block_cache_parallel
 	do
 		echo "Variante : " $var
@@ -97,7 +97,7 @@ do
 
 	mkdir resultsL2/$cc/$opt
 
-	for var in baseline tab_1d independant independant_split block_cache block_cache_mod independant_parallel \
+	for var in baseline tab_1d independant independant_split block_cache independant_parallel \
 	 	independant_split_parallel block_cache_parallel
 	do
 		echo "Variante : " $var
@@ -115,7 +115,7 @@ echo "Opt : " $opt
 
 mkdir resultsL2/$cc/$opt
 
-for var in baseline tab_1d independant independant_split block_cache block_cache_mod independant_parallel \
+for var in baseline tab_1d independant independant_split block_cache independant_parallel \
  	independant_split_parallel block_cache_parallel
 do
 	echo "Variante : " $var
