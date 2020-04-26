@@ -9,13 +9,13 @@ echo "CC : " $cc
 
 mkdir resultsL1/$cc
 
-for opt in O1 O2 O3 Ofast
+for opt in O2 O3
 do
 	echo "Opt : " $opt
 
 	mkdir resultsL1/$cc/$opt
 
-	for var in baseline tab_1d independant independant_split block_cache block_cache_mod independant_parallel \
+	for var in baseline tab_1d independant independant_split block_cache independant_parallel \
 	 	independant_split_parallel block_cache_parallel
 	do
 		echo "Variante : " $var
@@ -28,14 +28,13 @@ do
 	echo
 done
 
-for opt in march=native funroll-loops fsplit-loops fgcse-las fallow-store-data-races funswitch-loops floop-nest-optimize
+for opt in march=native funroll-loops
 do
 	echo "Opt : " $opt
 
 	mkdir resultsL1/$cc/$opt
 
-	for var in baseline tab_1d independant independant_split block_cache block_cache_mod independant_parallel \
-	 	independant_split_parallel block_cache_parallel
+	for var in baseline tab_1d independant independant_split block_cache
 	do
 		echo "Variante : " $var
 		make $var CC=$cc OFLAGS=-O3 FLAG=$opt
@@ -52,8 +51,7 @@ echo "Opt : " $opt
 
 mkdir resultsL1/$cc/$opt
 
-for var in baseline tab_1d independant independant_split block_cache block_cache_mod independant_parallel \
- 	independant_split_parallel block_cache_parallel
+for var in baseline tab_1d independant independant_split block_cache
 do
 	echo "Variante : " $var
 	make $var CC=$cc OFLAGS=-O3 FLAG=fprofile-generate
@@ -72,13 +70,13 @@ echo "CC : " $cc
 
 mkdir resultsL1/$cc
 
-for opt in O1 O2 O3 Ofast
+for opt in O2 O3
 do
 	echo "Opt : " $opt
 
 	mkdir resultsL1/$cc/$opt
 
-	for var in baseline tab_1d independant independant_split block_cache block_cache_mod independant_parallel \
+	for var in baseline tab_1d independant independant_split block_cache independant_parallel \
 	 	independant_split_parallel block_cache_parallel
 	do
 		echo "Variante : " $var
@@ -91,14 +89,13 @@ do
 	echo
 done
 
-for opt in xHost finline parallel funroll-loops
+for opt in xHost
 do
 	echo "Opt : " $opt
 
 	mkdir resultsL1/$cc/$opt
 
-	for var in baseline tab_1d independant independant_split block_cache block_cache_mod independant_parallel \
-	 	independant_split_parallel block_cache_parallel
+	for var in baseline tab_1d independant independant_split block_cache
 	do
 		echo "Variante : " $var
 		make $var CC=$cc OFLAGS=-O3 FLAG=$opt
@@ -115,8 +112,7 @@ echo "Opt : " $opt
 
 mkdir resultsL1/$cc/$opt
 
-for var in baseline tab_1d independant independant_split block_cache block_cache_mod independant_parallel \
- 	independant_split_parallel block_cache_parallel
+for var in baseline tab_1d independant independant_split block_cache
 do
 	echo "Variante : " $var
 	make $var CC=$cc OFLAGS=-O3 FLAG=prof-gen=threadsafe
